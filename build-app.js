@@ -1,10 +1,10 @@
-const execa = require("execa");
 const fs = require("fs-extra");
 const path = require("path");
 const { rimraf } = require("rimraf");
 const { IconIcns } = require("@shockpkg/icon-encoder");
 
 (async () => {
+  const execa = (await import("execa")).execa;
   const icns = new IconIcns();
   const raw = true;
 
