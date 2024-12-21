@@ -39,10 +39,7 @@ ${await (async () => {
       join(gameDir, gameExecutable),
     )}"`;
   } else {
-    return `"${wine.toWinePath(join(gameDir, gameExecutable))}"${
-      /* workaround 10351-4001 */
-      server.id == "hk4e_cn" ? " -platform_type CLOUD_THIRD_PARTY_PC" : ""
-    }`;
+    return `"${wine.toWinePath(join(gameDir, gameExecutable))}" -platform_type CLOUD_THIRD_PARTY_PC`;
   }
 })()}`;
   await writeFile(resolve("config.bat"), cmd);
