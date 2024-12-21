@@ -14,7 +14,9 @@ export async function createGithubEndpoint() {
     timeout(5000),
   ]);
 
-  fastest == "" || (await log(`Using github proxy ${fastest}`));
+  if (fastest != "") {
+    await log(`Using github proxy ${fastest}`);
+  }
 
   function api(path: `/${string}`): Promise<unknown> {
     return fetch(`${fastest}https://api.github.com${path}`).then(x => {
