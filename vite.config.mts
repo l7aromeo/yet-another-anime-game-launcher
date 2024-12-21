@@ -1,10 +1,9 @@
-/// <reference types="vitest" />
-import { defineConfig } from "vite";
+import { defineConfig, InlineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { UserConfig } from "vite";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig ({
   plugins: [tsconfigPaths(), {
     name: "channel-client switcher",
     load:  (id) => {
@@ -16,17 +15,15 @@ export default defineConfig({
       return null;
     }
   }, solidPlugin()],
-
   envPrefix: ["VITE_", "YAAGL_"],
   build: {
     target: "safari13",
     minify: true,
     sourcemap: false,
     outDir: "dist",
-    rollupOptions: {},
   },
   test: {
     include: ["src/**/*.spec.ts"],
     environment: "node",
   },
-});
+} as UserConfig & { test?: InlineConfig });
