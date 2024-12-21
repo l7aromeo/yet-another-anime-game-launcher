@@ -50,7 +50,7 @@ export async function createLocale() {
   function alert(
     title: LocaleTextKey,
     content: LocaleTextKey,
-    intrp: string[] = []
+    intrp: string[] = [],
   ) {
     return ualert(locale[title], formatString(locale[content], intrp));
   }
@@ -58,7 +58,7 @@ export async function createLocale() {
   function prompt(
     title: LocaleTextKey,
     content: LocaleTextKey,
-    intrp: string[] = []
+    intrp: string[] = [],
   ) {
     return uprompt(locale[title], formatString(locale[content], intrp));
   }
@@ -82,12 +82,11 @@ export async function createLocale() {
           id,
           name: LANGUAGE_LOCALE_NAME,
         };
-      }
+      },
     ),
     currentLanguage,
   };
 }
 
-export type Locale = ReturnType<typeof createLocale> extends Promise<infer C>
-  ? C
-  : never;
+export type Locale =
+  ReturnType<typeof createLocale> extends Promise<infer C> ? C : never;

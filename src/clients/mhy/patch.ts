@@ -29,7 +29,7 @@ export async function* patchProgram(
   gameDir: string,
   wine: Wine,
   server: Server,
-  config: Config
+  config: Config,
 ): CommonUpdateProgram {
   if ((await getKeyOrDefault("patched", "NOTFOUND")) != "NOTFOUND") {
     return;
@@ -39,13 +39,13 @@ export async function* patchProgram(
       if (file.tag === "workaround3" && config.workaround3) continue;
       await forceMove(
         join(gameDir, file.file),
-        join(gameDir, file.file + ".bak")
+        join(gameDir, file.file + ".bak"),
       );
       await putLocal(file.diffUrl, join(gameDir, file.file + ".diff"));
       await xdelta3(
         join(gameDir, file.file + ".bak"),
         join(gameDir, file.file + ".diff"),
-        join(gameDir, file.file)
+        join(gameDir, file.file),
       );
       await log("patched " + file.file);
       await removeFile(join(gameDir, file.file + ".diff"));
@@ -68,13 +68,13 @@ export async function* patchProgram(
   ) {
     await forceMove(
       join(gameDir, server.dataDir, "globalgamemanagers"),
-      join(gameDir, server.dataDir, "globalgamemanagers.bak")
+      join(gameDir, server.dataDir, "globalgamemanagers.bak"),
     );
     writeBinary(
       join(gameDir, server.dataDir, "globalgamemanagers"),
       await disableUnityFeature(
-        join(gameDir, server.dataDir, "globalgamemanagers.bak")
-      )
+        join(gameDir, server.dataDir, "globalgamemanagers.bak"),
+      ),
     );
   }
   const system32Dir = join(wine.prefix, "drive_c", "windows", "system32");
@@ -91,18 +91,18 @@ export async function* patchProgram(
     }
     await cp(
       `./dxmt/winemetal.dll`,
-      resolve("./wine/lib/wine/x86_64-windows/winemetal.dll")
+      resolve("./wine/lib/wine/x86_64-windows/winemetal.dll"),
     );
     await cp(
       `./dxmt/winemetal.so`,
-      resolve("./wine/lib/wine/x86_64-unix/winemetal.so")
+      resolve("./wine/lib/wine/x86_64-unix/winemetal.so"),
     );
   }
   if (config.reshade) {
     await cp(resolve("./reshade/dxgi.dll"), join(gameDir, "dxgi.dll"));
     await cp(
       resolve("./reshade/d3dcompiler_47.dll"),
-      join(gameDir, "d3dcompiler_47.dll")
+      join(gameDir, "d3dcompiler_47.dll"),
     );
   }
   setKey("patched", "1");
@@ -112,7 +112,7 @@ export async function* patchRevertProgram(
   gameDir: string,
   wine: Wine,
   server: Server,
-  config: Config
+  config: Config,
 ): CommonUpdateProgram {
   try {
     await getKey("patched");
@@ -124,7 +124,7 @@ export async function* patchRevertProgram(
       if (await fileOrDirExists(join(gameDir, file.file + ".bak"))) {
         await forceMove(
           join(gameDir, file.file + ".bak"),
-          join(gameDir, file.file)
+          join(gameDir, file.file),
         );
       }
     }
@@ -146,7 +146,7 @@ export async function* patchRevertProgram(
   ) {
     await forceMove(
       join(gameDir, server.dataDir, "globalgamemanagers.bak"),
-      join(gameDir, server.dataDir, "globalgamemanagers")
+      join(gameDir, server.dataDir, "globalgamemanagers"),
     );
   }
   const system32Dir = join(wine.prefix, "drive_c", "windows", "system32");

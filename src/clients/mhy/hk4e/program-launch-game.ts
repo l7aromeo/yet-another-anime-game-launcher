@@ -28,22 +28,20 @@ export async function* launchGameProgram({
   const cmd = `@echo off
 cd "%~dp0"
 copy "${wine.toWinePath(
-    join(gameDir, atob("SG9Zb0tQcm90ZWN0LnN5cw=="))
+    join(gameDir, atob("SG9Zb0tQcm90ZWN0LnN5cw==")),
   )}" "%WINDIR%\\system32\\"
 cd /d "${wine.toWinePath(gameDir)}"
 ${await (async () => {
   if (config.fpsUnlock !== "default") {
     return `"${wine.toWinePath(
-      resolve("./fpsunlock/genshin-force-fps.exe")
+      resolve("./fpsunlock/genshin-force-fps.exe"),
     )}" -f ${config.fpsUnlock} -o "${wine.toWinePath(
-      join(gameDir, gameExecutable)
+      join(gameDir, gameExecutable),
     )}"`;
   } else {
     return `"${wine.toWinePath(join(gameDir, gameExecutable))}"${
       /* workaround 10351-4001 */
-      server.id == "hk4e_cn"
-        ? " -platform_type CLOUD_THIRD_PARTY_PC"
-        : ""
+      server.id == "hk4e_cn" ? " -platform_type CLOUD_THIRD_PARTY_PC" : ""
     }`;
   }
 })()}`;
@@ -94,7 +92,7 @@ ${await (async () => {
               WINEESYNC: "1",
             }),
       },
-      logfile
+      logfile,
     );
     await wine.waitUntilServerOff();
   } catch (e: unknown) {

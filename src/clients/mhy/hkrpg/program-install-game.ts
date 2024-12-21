@@ -48,7 +48,7 @@ export async function* downloadAndInstallGameProgram({
       yield [
         "setProgress",
         Number(
-          (progress.completedLength * BigInt(10000)) / progress.totalLength
+          (progress.completedLength * BigInt(10000)) / progress.totalLength,
         ) / 100,
       ];
     }
@@ -67,7 +67,7 @@ export async function* downloadAndInstallGameProgram({
 game_version=${gameVersion}
 channel=${server.channel_id}
 sub_channel=${server.subchannel_id}
-cps=${server.cps}`
+cps=${server.cps}`,
   );
 
   for (const file of downloadedFiles) {
