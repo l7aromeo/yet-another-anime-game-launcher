@@ -42,7 +42,7 @@ ${await (async () => {
     return `"${wine.toWinePath(join(gameDir, gameExecutable))}"${
       /* workaround 10351-4001 */
       server.id == "hk4e_cn"
-        ? " -platform_type CLOUD_THIRD_PARTY_PC -is_cloud 1"
+        ? " -platform_type CLOUD_THIRD_PARTY_PC"
         : ""
     }`;
   }
